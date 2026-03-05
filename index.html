@@ -5,220 +5,381 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>史静雪的个人主页</title>
     <style>
-        /* 全局及背景样式 */
+        /* ================= 基础全局设置 ================= */
+        :root {
+            --bg-color: #f5f7fa;
+            --card-bg: #ffffff;
+            --text-main: #1d1d1f;
+            --text-muted: #515154;
+            --text-light: #86868b;
+            --accent-blue: #e8f0fe;
+            --accent-blue-text: #1967d2;
+            --border-color: #e5e7eb;
+            --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+            --radius-lg: 16px;
+            --radius-pill: 50px;
+        }
+
         body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background-color: #f5f7fa; /* 浅灰底色，衬托白色的主体卡片 */
-            color: #333;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
             margin: 0;
-            padding: 40px 20px;
-            line-height: 1.7;
+            padding: 0;
+            line-height: 1.6;
         }
 
-        /* 主体内容卡片 */
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background-color: #ffffff; /* 主体纯白 */
-            padding: 40px 50px;
-            border-radius: 16px; /* 更柔和的边框弧度 */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04); /* 增加高级感的柔和阴影 */
-        }
-
-        /* 标题排版 */
-        h1 { 
-            color: #2c3e50; 
-            font-size: 2.2em;
-            margin-bottom: 5px;
-        }
-        h2 { 
-            color: #34495e; 
-            font-size: 1.4em;
-            margin-top: 35px;
-            border-bottom: 2px solid #f0f2f5;
-            padding-bottom: 10px;
-        }
-        .subtitle {
-            color: #555;
-            font-size: 1.1em;
-            margin-top: 0;
-        }
-
-        /* 模块样式 */
-        .section { margin-bottom: 30px; }
+        a { text-decoration: none; color: inherit; }
+        ul { list-style: none; padding: 0; margin: 0; }
         
-        /* 联系信息卡片特殊样式 */
-        .contact-info { 
-            background-color: #f8f9fa; 
-            padding: 20px 25px; 
-            border-radius: 12px; 
-            margin-top: 25px;
-            border: 1px solid #edf2f7;
-        }
-        .contact-info h2 {
-            border-bottom: none;
-            margin-top: 0;
-            padding-bottom: 0;
-            color: #2c3e50;
-        }
-        .contact-info p { margin-bottom: 0; }
-
-        /* 列表样式 */
-        ul { padding-left: 20px; }
-        li { margin-bottom: 8px; }
-
-        /* 语言切换按钮样式 */
-        .language-switch { 
-            text-align: right; 
-            margin-bottom: 30px; 
-        }
-        .language-switch button { 
-            background: none;
-            border: 1px solid #e2e8f0;
-            color: #64748b; 
-            padding: 6px 16px; 
-            font-size: 0.9em;
-            cursor: pointer;
-            border-radius: 20px;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-        .language-switch button:hover {
-            border-color: #007bff;
-            color: #007bff;
-        }
-        .language-switch button.active {
-            background-color: #007bff;
-            color: #ffffff;
-            border-color: #007bff;
-        }
-        .lang-separator {
-            color: #cbd5e1;
-            margin: 0 5px;
+        /* ================= 顶部导航栏 ================= */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
         }
 
-        /* 底部信息 */
-        hr { 
+        .nav-brand {
+            font-weight: 600;
+            font-size: 1.1em;
+            color: var(--text-main);
+        }
+        .nav-brand span {
+            display: block;
+            font-size: 0.7em;
+            color: var(--text-light);
+            font-weight: 400;
+        }
+
+        /* 语言切换胶囊按钮 */
+        .lang-toggle {
+            display: flex;
+            background: #f1f3f5;
+            border-radius: var(--radius-pill);
+            padding: 4px;
+        }
+        .lang-btn {
+            padding: 6px 16px;
             border: none;
-            border-top: 1px solid #edf2f7; 
-            margin: 40px 0 20px 0; 
+            background: transparent;
+            border-radius: var(--radius-pill);
+            font-size: 0.85em;
+            font-weight: 500;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
-        .footer { 
-            text-align: center; 
-            color: #94a3b8; 
-            font-size: 0.9em; 
+        .lang-btn.active {
+            background: var(--card-bg);
+            color: var(--text-main);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        /* ================= 主体内容布局 ================= */
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* 顶部横幅区：左右分栏 */
+        .hero-section {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        /* 左侧主标题区 */
+        .hero-left {
+            padding-top: 20px;
+        }
+        .hero-title {
+            font-size: 2.8em;
+            font-weight: 700;
+            margin: 0 0 15px 0;
+            letter-spacing: -0.02em;
+        }
+        .hero-desc {
+            font-size: 1.1em;
+            color: var(--text-muted);
+            margin-bottom: 25px;
+            max-width: 90%;
+        }
+
+        /* 标签（Tags）设计 */
+        .tags-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+        .tag {
+            background: var(--accent-blue);
+            color: var(--accent-blue-text);
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            font-size: 0.85em;
+            font-weight: 500;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        /* 右侧个人信息卡片 */
+        .profile-card {
+            background: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+        }
+        .avatar-box {
+            width: 60px;
+            height: 60px;
+            background: #e1e7fa;
+            color: #4a6ee0;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .info-list { margin-top: 20px; }
+        .info-item {
+            margin-bottom: 12px;
+            font-size: 0.9em;
+        }
+        .info-label {
+            color: var(--text-light);
+            display: block;
+            font-size: 0.85em;
+            margin-bottom: 2px;
+        }
+        .info-value { color: var(--text-main); font-weight: 500; }
+
+        /* ================= 底部卡片列表区 ================= */
+        .section-title {
+            font-size: 1.4em;
+            font-weight: 600;
+            margin: 40px 0 20px 0;
+            color: var(--text-main);
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 15px;
+            box-shadow: var(--card-shadow);
+            border: 1px solid var(--border-color);
+            transition: transform 0.2s ease;
+        }
+        .card:hover {
+            transform: translateY(-2px);
+        }
+        
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .card-title {
+            font-weight: 600;
+            font-size: 1.1em;
+            margin: 0;
+        }
+        .card-meta {
+            font-size: 0.85em;
+            color: var(--text-light);
+            background: #f5f5f7;
+            padding: 4px 10px;
+            border-radius: 6px;
+        }
+        .card-desc {
+            color: var(--text-muted);
+            font-size: 0.95em;
+            margin: 0;
+        }
+
+        /* 响应式设计：手机端自动变为单列 */
+        @media (max-width: 768px) {
+            .hero-section { grid-template-columns: 1fr; }
+            .navbar { padding: 15px 20px; }
         }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <div class="language-switch">
-        <button id="btn-zh" class="active" onclick="switchLanguage('zh')">中文</button>
-        <span class="lang-separator">|</span>
-        <button id="btn-en" onclick="switchLanguage('en')">English</button>
+    <nav class="navbar">
+        <div class="nav-brand">
+            史静雪
+            <span>学术主页 · 个人简历</span>
+        </div>
+        
+        <div class="lang-toggle">
+            <button id="btn-zh" class="lang-btn active" onclick="switchLanguage('zh')">中文</button>
+            <button id="btn-en" class="lang-btn" onclick="switchLanguage('en')">EN</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <div id="content-zh">
+            <div class="hero-section">
+                <div class="hero-left">
+                    <h1 class="hero-title">个人主页</h1>
+                    <p class="hero-desc">
+                        我是华东政法大学的一名大二学生，对会计实务和Python编程充满热情。我正在努力学习各种工具，希望通过数据洞察世界。我的目标是成为一名善用技术的会计师。
+                    </p>
+                    
+                    <div class="tags-group">
+                        <span class="tag">📍 中国 · 上海</span>
+                        <span class="tag">🎓 华东政法大学 · 商学院</span>
+                        <span class="tag">📚 司法会计专业</span>
+                    </div>
+                </div>
+
+                <div class="profile-card">
+                    <div class="avatar-box">史</div>
+                    <div class="info-value" style="font-size: 1.2em;">史静雪</div>
+                    <div class="info-label">本科生 | 大二</div>
+                    
+                    <div class="info-list">
+                        <div class="info-item">
+                            <span class="info-label">研究/专长</span>
+                            <span class="info-value">会计实务 / 数据统计 / Python</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">联系电话</span>
+                            <span class="info-value">13062723372</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">电子邮箱</span>
+                            <span class="info-value">2024149466@qq.com</span>
+                        </div>
+                        <div class="info-item" style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
+                            <span class="info-label">最后更新</span>
+                            <span class="info-value">2026-03-04</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">教育经历</h2>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">华东政法大学</h3>
+                    <span class="card-meta">2024.09 - 至今</span>
+                </div>
+                <p class="card-desc"><strong>专业：</strong>司法会计专业</p>
+                <p class="card-desc" style="margin-top: 8px;"><strong>主修课程：</strong>高等数学、线性代数、西方经济学、概率论、基础会计、管理学</p>
+            </div>
+
+            <h2 class="section-title">核心技能</h2>
+            <div class="card">
+                <p class="card-desc">
+                    • <strong>编程与数据：</strong> 熟练掌握 Python 编程，具备一定的数据统计与分析能力。<br>
+                    • <strong>专业技能：</strong> 扎实的会计实务基础，了解司法会计相关工作流程。<br>
+                    • <strong>综合能力：</strong> 具备优秀的写作与材料编撰能力。
+                </p>
+            </div>
+        </div>
+
+        <div id="content-en" style="display: none;">
+            <div class="hero-section">
+                <div class="hero-left">
+                    <h1 class="hero-title">Academic Profile</h1>
+                    <p class="hero-desc">
+                        I am a sophomore at East China University of Political Science and Law, passionate about accounting practice and Python programming. I am actively learning various tools with the hope of gaining insights into the world through data. My goal is to become an accountant who excels at utilizing technology.
+                    </p>
+                    
+                    <div class="tags-group">
+                        <span class="tag">📍 Shanghai, China</span>
+                        <span class="tag">🎓 ECUPL · Business School</span>
+                        <span class="tag">📚 Forensic Accounting</span>
+                    </div>
+                </div>
+
+                <div class="profile-card">
+                    <div class="avatar-box">S</div>
+                    <div class="info-value" style="font-size: 1.2em;">Jingxue Shi</div>
+                    <div class="info-label">Undergraduate | Sophomore</div>
+                    
+                    <div class="info-list">
+                        <div class="info-item">
+                            <span class="info-label">Expertise</span>
+                            <span class="info-value">Accounting / Statistics / Python</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Phone</span>
+                            <span class="info-value">(+86) 13062723372</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Email</span>
+                            <span class="info-value">2024149466@qq.com</span>
+                        </div>
+                        <div class="info-item" style="margin-top: 20px; border-top: 1px solid #eee; padding-top: 15px;">
+                            <span class="info-label">Last Updated</span>
+                            <span class="info-value">2026-03-04</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <h2 class="section-title">Education</h2>
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">East China University of Political Science and Law</h3>
+                    <span class="card-meta">Sep 2024 - Present</span>
+                </div>
+                <p class="card-desc"><strong>Major:</strong> Forensic Accounting</p>
+                <p class="card-desc" style="margin-top: 8px;"><strong>Core Courses:</strong> Advanced Mathematics, Linear Algebra, Western Economics, Probability Theory, Basic Accounting, Management</p>
+            </div>
+
+            <h2 class="section-title">Core Skills</h2>
+            <div class="card">
+                <p class="card-desc">
+                    • <strong>Programming & Data:</strong> Proficient in Python programming with solid skills in data statistics and analysis.<br>
+                    • <strong>Professional Skills:</strong> Strong foundation in accounting practices and knowledge of forensic accounting workflows.<br>
+                    • <strong>Comprehensive Skills:</strong> Excellent writing, editing, and document compilation abilities.
+                </p>
+            </div>
+        </div>
+
     </div>
 
-    <div id="content-zh">
-        <h1>史静雪</h1>
-        <p class="subtitle"><strong>华东政法大学 · 商学院 | 大二学生</strong></p>
-        <p>📍 中国 · 上海</p>
+    <script>
+        function switchLanguage(lang) {
+            const contentZh = document.getElementById('content-zh');
+            const contentEn = document.getElementById('content-en');
+            const btnZh = document.getElementById('btn-zh');
+            const btnEn = document.getElementById('btn-en');
 
-        <div class="section contact-info">
-            <h2>📞 13062723372</h2>
-            <p>📧 邮箱: 2024149466@qq.com</p>
-        </div>
-
-        <div class="section">
-            <h2>👤 个人简介</h2>
-            <p>我是华东政法大学的一名大二学生，对会计实务和Python编程充满热情。我正在努力学习各种工具，希望通过数据洞察世界。我的目标是成为一名善用技术的会计师。</p>
-        </div>
-
-        <div class="section">
-            <h2>💡 技能</h2>
-            <ul>
-                <li>Python 编程 </li>
-                <li>写作编撰</li>
-                <li>会计实务</li>
-                <li>数据统计</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2>📚 教育经历</h2>
-            <p><strong>华东政法大学</strong> | 专业：司法会计专业 | 2024年9月 - 至今</p>
-            <p>主修课程：高等数学、线性代数、西方经济学、概率论、基础会计、管理学</p>
-        </div>
-
-        <hr>
-        <div class="footer">
-            最后更新：2026年3月4日
-        </div>
-    </div>
-
-    <div id="content-en" style="display: none;">
-        <h1>Jingxue Shi</h1>
-        <p class="subtitle"><strong>East China University of Political Science and Law · Business School | Sophomore</strong></p>
-        <p>📍 Shanghai, China</p>
-
-        <div class="section contact-info">
-            <h2>📞 (+86) 13062723372</h2>
-            <p>📧 Email: 2024149466@qq.com</p>
-        </div>
-
-        <div class="section">
-            <h2>👤 About Me</h2>
-            <p>I am a sophomore at East China University of Political Science and Law, passionate about accounting practice and Python programming. I am actively learning various tools with the hope of gaining insights into the world through data. My goal is to become an accountant who excels at utilizing technology.</p>
-        </div>
-
-        <div class="section">
-            <h2>💡 Skills</h2>
-            <ul>
-                <li>Python Programming</li>
-                <li>Writing & Editing</li>
-                <li>Accounting Practice</li>
-                <li>Data Statistics</li>
-            </ul>
-        </div>
-
-        <div class="section">
-            <h2>📚 Education</h2>
-            <p><strong>East China University of Political Science and Law</strong> | Major: Forensic Accounting | Sep 2024 - Present</p>
-            <p>Core Courses: Advanced Mathematics, Linear Algebra, Western Economics, Probability Theory, Basic Accounting, Management</p>
-        </div>
-
-        <hr>
-        <div class="footer">
-            Last Updated: March 4, 2026
-        </div>
-    </div>
-</div>
-
-<script>
-    function switchLanguage(lang) {
-        // 获取页面元素
-        const contentZh = document.getElementById('content-zh');
-        const contentEn = document.getElementById('content-en');
-        const btnZh = document.getElementById('btn-zh');
-        const btnEn = document.getElementById('btn-en');
-
-        if (lang === 'zh') {
-            // 显示中文，隐藏英文
-            contentZh.style.display = 'block';
-            contentEn.style.display = 'none';
-            // 更新按钮状态
-            btnZh.classList.add('active');
-            btnEn.classList.remove('active');
-        } else if (lang === 'en') {
-            // 显示英文，隐藏中文
-            contentZh.style.display = 'none';
-            contentEn.style.display = 'block';
-            // 更新按钮状态
-            btnEn.classList.add('active');
-            btnZh.classList.remove('active');
+            if (lang === 'zh') {
+                contentZh.style.display = 'block';
+                contentEn.style.display = 'none';
+                btnZh.classList.add('active');
+                btnEn.classList.remove('active');
+                document.title = "史静雪的个人主页";
+            } else {
+                contentZh.style.display = 'none';
+                contentEn.style.display = 'block';
+                btnEn.classList.add('active');
+                btnZh.classList.remove('active');
+                document.title = "Jingxue Shi - Profile";
+            }
         }
-    }
-</script>
+    </script>
 
 </body>
 </html>
